@@ -1,4 +1,6 @@
+import 'package:concertbooker/Concert.dart';
 import 'package:concertbooker/ConcertDetail.dart';
+import 'package:concertbooker/Seat.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -31,7 +33,7 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: .fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: Concertdetail(),
+      home: Concertdetail(concert:Concert(id: 0, name: "Fellah concert", imagelink: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdY14nLrQ4WENI0mMI5PmvQQYGAIkw-yDl9A&s", seats: Seat(seathorizontalamount: 5, seatvertivalamount: 5))),
     );
   }
 }

@@ -1,16 +1,30 @@
+import 'package:concertbooker/Concert.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Concertdetail extends StatefulWidget
 {
+  Concert concert;
+  Concertdetail({required this.concert});
     @override
   State<StatefulWidget> createState() {
-    return ConcertdetailState();
+    return ConcertdetailState(concert: concert);
   }
 }
 
 class ConcertdetailState extends State<Concertdetail>
 {
+  Concert concert;
+  ConcertdetailState({required this.concert});
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+  }
+
+
+
     @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -22,15 +36,15 @@ class ConcertdetailState extends State<Concertdetail>
           children: [
             Container(
               width: double.infinity,
-              child: CardBuilder(Center(child: Image.network("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdY14nLrQ4WENI0mMI5PmvQQYGAIkw-yDl9A&s"),)),
+              child: CardBuilder(Center(child: Image.network(concert.imagelink),)),
             ),
             Container(
               width: double.infinity,
-              child: CardBuilder(Center(child: Text("Concert name"))),
+              child: CardBuilder(Center(child: Text("Name: " + concert.name))),
             ),
             Container(
               width: double.infinity,
-              child: CardBuilder(Center(child: Text("seat amount"))),
+              child: CardBuilder(Center(child: Text("Seat amount: " + concert.seats.Totalseat.toString()))),
             )
           ],
         ),
