@@ -19,7 +19,7 @@ class Databasemanager {
             id: concert['id'],
             name: concert['name'],
             date: concert['date'],
-            description: concert['description'],
+            price: concert['price'],
             imagelink: concert['imagelink'],
             seats: Seat(),
           ),

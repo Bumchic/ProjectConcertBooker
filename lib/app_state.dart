@@ -15,6 +15,7 @@ class AppState extends ChangeNotifier {
       date: "02/03/2026",
       price: 1200.0,
       seats: Seat(seathorizontalamount: 20, seatvertivalamount: 30),
+
     ),
     // 2. BLACKPINK (Hot Event)
     Concert(

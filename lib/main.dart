@@ -18,10 +18,10 @@ Future<Database> InitDatabase() async {
     onCreate: (db, version) {
       db.execute("PRAGMA foreign_keys = ON");
       db.execute(
-        'create table Concert(id int num auto increment primary key, name text not null, date text, description text, imagelink text);',
+        'create table Concert(id integer num AUTOINCREMENT primary key, name text not null, date text, description text, price integer, imagelink text);',
       );
       db.execute(
-        'create table seat(id int primary key, concertID int, verticalPos num not null, horizontalPos num not null'
+        'create table seat(id integer AUTOINCREMENT primary key, concertID integer, verticalPos integer not null, horizontalPos integer not null'
         'foreign key (concertID) references Concert(id))',
       );
     },
