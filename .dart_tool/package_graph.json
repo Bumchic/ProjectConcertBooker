@@ -157,8 +157,6 @@
       ]
     },
     {
-<<<<<<< HEAD
-=======
       "name": "nested",
       "version": "1.0.0",
       "dependencies": [
@@ -166,7 +164,6 @@
       ]
     },
     {
->>>>>>> main
       "name": "sky_engine",
       "version": "0.0.0",
       "dependencies": []

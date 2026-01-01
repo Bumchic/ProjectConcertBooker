@@ -12,10 +12,15 @@ class CreateConcertScreen extends StatefulWidget {
 class _CreateConcertScreenState extends State<CreateConcertScreen> {
   final _formKey = GlobalKey<FormState>();
 
+  // Các controller quản lý nhập liệu
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _imageLinkController = TextEditingController();
   final TextEditingController _rowsController = TextEditingController();
   final TextEditingController _columnsController = TextEditingController();
+
+  // MỚI THÊM: Controller cho Ngày và Giá
+  final TextEditingController _dateController = TextEditingController();
+  final TextEditingController _priceController = TextEditingController();
 
   @override
   void dispose() {
@@ -23,6 +28,9 @@ class _CreateConcertScreenState extends State<CreateConcertScreen> {
     _imageLinkController.dispose();
     _rowsController.dispose();
     _columnsController.dispose();
+    // MỚI THÊM: Dispose controller mới để tránh rò rỉ bộ nhớ
+    _dateController.dispose();
+    _priceController.dispose();
     super.dispose();
   }
 
@@ -40,12 +48,13 @@ class _CreateConcertScreenState extends State<CreateConcertScreen> {
           key: _formKey,
           child: ListView(
             children: [
-              // Tên concert
+              // 1. Tên concert
               TextFormField(
                 controller: _nameController,
                 decoration: const InputDecoration(
                   labelText: 'Concert Name',
                   border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.event),
                 ),
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
@@ -56,27 +65,66 @@ class _CreateConcertScreenState extends State<CreateConcertScreen> {
               ),
               const SizedBox(height: 16),
 
-              // Link ảnh
+              // 2. Link ảnh
               TextFormField(
                 controller: _imageLinkController,
                 decoration: const InputDecoration(
                   labelText: 'Image URL',
                   hintText: 'https://example.com/image.jpg',
                   border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.image),
                 ),
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
                     return 'Please enter image URL';
-                  }
-                  if (!Uri.tryParse(value.trim())!.isAbsolute) {
-                    return 'Please enter a valid URL';
                   }
                   return null;
                 },
               ),
               const SizedBox(height: 16),
 
-              // Số hàng và số cột ghế
+              // 3. Ngày tổ chức và Giá vé (MỚI THÊM)
+              Row(
+                children: [
+                  // Nhập ngày
+                  Expanded(
+                    child: TextFormField(
+                      controller: _dateController,
+                      decoration: const InputDecoration(
+                        labelText: 'Date',
+                        hintText: 'e.g. 20/12/2025',
+                        border: OutlineInputBorder(),
+                        prefixIcon: Icon(Icons.calendar_today),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) return 'Required';
+                        return null;
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  // Nhập giá
+                  Expanded(
+                    child: TextFormField(
+                      controller: _priceController,
+                      keyboardType: TextInputType.number,
+                      decoration: const InputDecoration(
+                        labelText: 'Price (\$)',
+                        border: OutlineInputBorder(),
+                        prefixIcon: Icon(Icons.attach_money),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) return 'Required';
+                        if (double.tryParse(value) == null) return 'Invalid number';
+                        return null;
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+
+              // 4. Số hàng và số cột ghế
               Row(
                 children: [
                   Expanded(
@@ -84,17 +132,14 @@ class _CreateConcertScreenState extends State<CreateConcertScreen> {
                       controller: _rowsController,
                       keyboardType: TextInputType.number,
                       decoration: const InputDecoration(
-                        labelText: 'Number of Rows',
+                        labelText: 'Rows',
                         border: OutlineInputBorder(),
+                        prefixIcon: Icon(Icons.table_rows),
                       ),
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Required';
-                        }
+                        if (value == null || value.isEmpty) return 'Required';
                         final n = int.tryParse(value);
-                        if (n == null || n < 1 || n > 50) {
-                          return '1 - 50';
-                        }
+                        if (n == null || n < 1 || n > 50) return '1-50';
                         return null;
                       },
                     ),
@@ -105,17 +150,14 @@ class _CreateConcertScreenState extends State<CreateConcertScreen> {
                       controller: _columnsController,
                       keyboardType: TextInputType.number,
                       decoration: const InputDecoration(
-                        labelText: 'Seats per Row',
+                        labelText: 'Cols',
                         border: OutlineInputBorder(),
+                        prefixIcon: Icon(Icons.view_column),
                       ),
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Required';
-                        }
+                        if (value == null || value.isEmpty) return 'Required';
                         final n = int.tryParse(value);
-                        if (n == null || n < 1 || n > 50) {
-                          return '1 - 50';
-                        }
+                        if (n == null || n < 1 || n > 50) return '1-50';
                         return null;
                       },
                     ),
@@ -124,17 +166,29 @@ class _CreateConcertScreenState extends State<CreateConcertScreen> {
               ),
               const SizedBox(height: 32),
 
-              // Nút tạo concert
+              // 5. Nút tạo concert
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
+                    // Lấy dữ liệu từ các controller
                     final String name = _nameController.text.trim();
                     final String imageLink = _imageLinkController.text.trim();
                     final int rows = int.parse(_rowsController.text);
                     final int columns = int.parse(_columnsController.text);
 
-                    // Thêm vào AppState
-                    context.read<AppState>().addConcert(name, imageLink, rows, columns);
+                    // Lấy dữ liệu mới (Date & Price)
+                    final String date = _dateController.text.trim();
+                    final double price = double.parse(_priceController.text);
+
+                    // Gọi hàm addConcert với đầy đủ 6 tham số
+                    context.read<AppState>().addConcert(
+                        name,
+                        imageLink,
+                        rows,
+                        columns,
+                        date,
+                        price
+                    );
 
                     // Thông báo thành công và quay lại
                     ScaffoldMessenger.of(context).showSnackBar(
