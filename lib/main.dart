@@ -2,9 +2,31 @@ import 'package:concertbooker/Concert.dart';
 import 'package:concertbooker/ConcertDetail.dart';
 import 'package:concertbooker/Seat.dart';
 import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite_dev.dart';
 
 void main() {
+  InitDatabase();
   runApp(const MyApp());
+}
+
+Future<Database> InitDatabase() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  return openDatabase(
+    join(await getDatabasesPath(), 'concertdb.db'),
+    onCreate: (db, version) {
+      db.execute("PRAGMA foreign_keys = ON");
+      db.execute(
+        'create table Concert(id int num auto increment primary key, name text not null, date text, description text, imagelink text);',
+      );
+      db.execute(
+        'create table seat(id int primary key, concertID int, verticalPos num not null, horizontalPos num not null'
+        'foreign key (concertID) references Concert(id))',
+      );
+    },
+    version: 1
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -15,25 +37,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
+      theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
+      home: Concertdetail(
+        concert: Concert(
+          id: 0,
+          name: "Fellah concert",
+          imagelink:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdY14nLrQ4WENI0mMI5PmvQQYGAIkw-yDl9A&s",
+          seats: Seat(seathorizontalamount: 5, seatvertivalamount: 5),
+          description: 'a concert',
+          date: DateTime.now()
+        ),
       ),
-      home: Concertdetail(concert:Concert(id: 0, name: "Fellah concert", imagelink: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdY14nLrQ4WENI0mMI5PmvQQYGAIkw-yDl9A&s", seats: Seat(seathorizontalamount: 5, seatvertivalamount: 5))),
     );
   }
 }

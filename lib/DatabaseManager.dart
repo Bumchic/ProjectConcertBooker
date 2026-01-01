@@ -1,0 +1,34 @@
+import 'package:concertbooker/Concert.dart';
+import 'package:concertbooker/Seat.dart';
+import 'package:sqflite/sqflite.dart';
+
+class Databasemanager {
+  Future<Database> database;
+  Databasemanager({required this.database});
+
+
+  Future<List<Concert>> GetConcertList() async {
+    try {
+      Database db = await database;
+      List<Map<String, dynamic>> databaseconcertlist = await db.query(
+        "Concert",
+      );
+      List<Concert> todolist = [];
+      for (Map<String, dynamic> concert in databaseconcertlist) {
+        todolist.add(
+          Concert(
+            id: concert['id'],
+            name: concert['name'],
+            date: concert['date'],
+            description: concert['description'],
+            imagelink: concert['imagelink'],
+            seats: Seat(),
+          ),
+        );
+      }
+      return todolist;
+    } catch (Exception) {
+      throw Exception;
+    }
+  }
+}
