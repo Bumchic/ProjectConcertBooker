@@ -7,10 +7,8 @@ class Seat {
   }
   List<List<int>> seatarray;
 
-  Seat.Default({this.seathorizontalamount = 20, this.seatvertivalamount = 20})
-      :seatarray = List.generate(seatvertivalamount, (i) => List.generate(seathorizontalamount, (j) => 1));
-
-  Seat({required this.seathorizontalamount, required this.seatvertivalamount, required this.seatarray});
+  Seat({this.seathorizontalamount = 20, this.seatvertivalamount = 20})
+      :seatarray = List.generate(seathorizontalamount, (i) => List.generate(seatvertivalamount, (j) => 1));
 
 
 
