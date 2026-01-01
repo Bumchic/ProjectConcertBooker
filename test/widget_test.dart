@@ -5,6 +5,8 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
+import 'package:concertbooker/Concert.dart';
+import 'package:concertbooker/DatabaseManager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -13,5 +15,10 @@ import 'package:sqflite/sqflite.dart';
 
 
 void main() {
-
+  test('run db', ()async {
+    Future<Database> db = InitDatabase();
+    Databasemanager manager = Databasemanager(database: db);
+    List<Concert> listconcert = await manager.GetConcertList();
+    expect(1, listconcert.length);
+  });
 }

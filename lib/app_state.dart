@@ -1,10 +1,11 @@
+import 'package:concertbooker/DatabaseManager.dart';
 import 'package:flutter/material.dart';
 import 'package:concertbooker/Concert.dart';
 import 'package:concertbooker/Seat.dart';
 
 class AppState extends ChangeNotifier {
   bool isAdminMode = false;
-
+  Databasemanager dbmanager = Databasemanager(database: Databasemanager.InitDatabase());
   // Dữ liệu giả được nạp sẵn (Hard-coded mock data)
   List<Concert> concerts = [
     // 1. Taylor Swift (Hot Event)

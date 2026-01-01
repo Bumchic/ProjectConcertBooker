@@ -1,6 +1,9 @@
 import 'package:concertbooker/Concert.dart';
 import 'package:concertbooker/Seat.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:flutter/material.dart';
+import 'package:path/path.dart';
+
 
 class Databasemanager {
   Future<Database> database;
@@ -47,5 +50,24 @@ class Databasemanager {
     } catch (Exception) {
       throw Exception;
     }
+  }
+
+  static Future<Database> InitDatabase() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    return openDatabase(
+        join(await getDatabasesPath(), 'concertdbtest.db'),
+        onCreate: (db, version) {
+          db.execute("PRAGMA foreign_keys = ON");
+          db.execute(
+            'create table Concert(id integer num AUTOINCREMENT primary key, name text not null, date text, description text, price integer, imagelink text);',
+          );
+          db.execute(
+            'create table seat(id integer AUTOINCREMENT primary key, concertID integer, verticalPos integer not null, horizontalPos integer not null'
+                'foreign key (concertID) references Concert(id))',
+          );
+          db.insert('Concert', Concert( name: 'name', date: "2025-01-01", price: 4, imagelink: "hello", seats: Seat()).ToMap());
+        },
+        version: 1
+    );
   }
 }
