@@ -40,7 +40,6 @@ class _CreateConcertScreenState extends State<CreateConcertScreen> {
           key: _formKey,
           child: ListView(
             children: [
-              // Tên concert
               TextFormField(
                 controller: _nameController,
                 decoration: const InputDecoration(
@@ -56,7 +55,6 @@ class _CreateConcertScreenState extends State<CreateConcertScreen> {
               ),
               const SizedBox(height: 16),
 
-              // Link ảnh
               TextFormField(
                 controller: _imageLinkController,
                 decoration: const InputDecoration(
@@ -76,7 +74,6 @@ class _CreateConcertScreenState extends State<CreateConcertScreen> {
               ),
               const SizedBox(height: 16),
 
-              // Số hàng và số cột ghế
               Row(
                 children: [
                   Expanded(
@@ -124,7 +121,6 @@ class _CreateConcertScreenState extends State<CreateConcertScreen> {
               ),
               const SizedBox(height: 32),
 
-              // Nút tạo concert
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
@@ -133,10 +129,8 @@ class _CreateConcertScreenState extends State<CreateConcertScreen> {
                     final int rows = int.parse(_rowsController.text);
                     final int columns = int.parse(_columnsController.text);
 
-                    // Thêm vào AppState
                     context.read<AppState>().addConcert(name, imageLink, rows, columns);
 
-                    // Thông báo thành công và quay lại
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Concert created successfully!')),
                     );
