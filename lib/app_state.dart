@@ -90,7 +90,7 @@ class AppState extends ChangeNotifier {
 
   void addConcert(String name, String imageLink, int rows, int columns, String date, double price) {
     // Logic tạo ID tự động: Nếu list rỗng thì ID = 1, ngược lại lấy ID cuối + 1
-    final int newId = concerts.isEmpty ? 1 : concerts.last.id + 1;
+    //final int newId = concerts.isEmpty ? 1 : concerts.last.id + 1;
 
     final newSeat = Seat(
       seathorizontalamount: rows,
@@ -98,7 +98,6 @@ class AppState extends ChangeNotifier {
     );
 
     final newConcert = Concert(
-      id: newId,
       name: name,
       imagelink: imageLink,
       seats: newSeat,
@@ -106,7 +105,8 @@ class AppState extends ChangeNotifier {
       price: price,
     );
 
-    concerts.add(newConcert);
+    //concerts.add(newConcert);
+    dbmanager.AddConcert(newConcert);
     notifyListeners();
   }
 }

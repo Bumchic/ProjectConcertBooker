@@ -20,7 +20,6 @@ class Concert {
   Map<String, dynamic> ToMap()
   {
     return {
-      "id" : this.id,
       "name": name,
       "date": date,
       "price" : price,

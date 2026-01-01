@@ -27,7 +27,19 @@ class HomeScreen extends StatelessWidget {
       ),
       body: appState.isAdminMode
           ? const AdminDashboard()
-          : UserHome(concerts: appState.concerts),
+          : FutureBuilder(future: appState.dbmanager.GetConcertList(), builder:
+      (context, snapshot){
+            Widget widget = Text("Something went wrong");
+            if(snapshot.hasData)
+              {
+                widget = UserHome(concerts: snapshot.data!);
+              }
+            if(snapshot.hasError)
+              {
+                widget = Text(snapshot.error.toString());
+              }
+            return widget;
+      })
     );
   }
 }

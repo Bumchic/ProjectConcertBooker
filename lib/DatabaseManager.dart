@@ -22,7 +22,7 @@ class Databasemanager {
             id: concert['id'],
             name: concert['name'],
             date: concert['date'],
-            price: concert['price'],
+            price: (concert['price'] as int).toDouble(),
             imagelink: concert['imagelink'],
             seats: Seat(),
           ),
@@ -55,17 +55,11 @@ class Databasemanager {
   static Future<Database> InitDatabase() async {
     WidgetsFlutterBinding.ensureInitialized();
     return openDatabase(
-        join(await getDatabasesPath(), 'concertdbtest.db'),
-        onCreate: (db, version) {
-          db.execute("PRAGMA foreign_keys = ON");
-          db.execute(
-            'create table Concert(id integer num AUTOINCREMENT primary key, name text not null, date text, description text, price integer, imagelink text);',
-          );
-          db.execute(
-            'create table seat(id integer AUTOINCREMENT primary key, concertID integer, verticalPos integer not null, horizontalPos integer not null'
-                'foreign key (concertID) references Concert(id))',
-          );
-          db.insert('Concert', Concert( name: 'name', date: "2025-01-01", price: 4, imagelink: "hello", seats: Seat()).ToMap());
+        join(await getDatabasesPath(), 'concertdbtests.db'),
+        onCreate: (db, version) async {
+          await db.execute("PRAGMA foreign_keys = ON");
+          await db.execute("create table Concert(id integer primary key, name text not null, date text, description text, price integer, imagelink text);");
+          await db.execute("create table Seat(id integer primary key, concertID integer, verticalPos integer not null, horizontalPos integer not null, foreign key (concertID) references Concert(id))");
         },
         version: 1
     );
