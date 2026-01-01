@@ -8,7 +8,6 @@ class AppState extends ChangeNotifier {
   Databasemanager dbmanager = Databasemanager(database: Databasemanager.InitDatabase());
   // Dữ liệu giả được nạp sẵn (Hard-coded mock data)
   List<Concert> concerts = [
-    // 1. Taylor Swift (Hot Event)
     Concert(
       id: 1,
       name: "The Eras Tour - Taylor Swift",
@@ -18,7 +17,6 @@ class AppState extends ChangeNotifier {
       seats: Seat(seathorizontalamount: 20, seatvertivalamount: 30),
 
     ),
-    // 2. BLACKPINK (Hot Event)
     Concert(
       id: 2,
       name: "Born Pink World Tour - BLACKPINK",
@@ -27,7 +25,6 @@ class AppState extends ChangeNotifier {
       price: 850.0,
       seats: Seat(seathorizontalamount: 15, seatvertivalamount: 25),
     ),
-    // 3. Coldplay (Hot Event)
     Concert(
       id: 3,
       name: "Music of the Spheres - Coldplay",
@@ -36,7 +33,6 @@ class AppState extends ChangeNotifier {
       price: 900.0,
       seats: Seat(seathorizontalamount: 25, seatvertivalamount: 25),
     ),
-    // 4. Son Tung M-TP (Upcoming)
     Concert(
       id: 4,
       name: "Sky Tour 2026 - Son Tung M-TP",
@@ -45,7 +41,6 @@ class AppState extends ChangeNotifier {
       price: 150.0,
       seats: Seat(seathorizontalamount: 10, seatvertivalamount: 20),
     ),
-    // 5. Adele (Upcoming)
     Concert(
       id: 5,
       name: "Weekends with Adele",
@@ -54,7 +49,6 @@ class AppState extends ChangeNotifier {
       price: 2000.0,
       seats: Seat(seathorizontalamount: 10, seatvertivalamount: 10),
     ),
-    // 6. Ed Sheeran (Upcoming)
     Concert(
       id: 6,
       name: "Mathematics Tour - Ed Sheeran",
@@ -63,7 +57,6 @@ class AppState extends ChangeNotifier {
       price: 600.0,
       seats: Seat(seathorizontalamount: 30, seatvertivalamount: 30),
     ),
-    // 7. Ha Anh Tuan (Upcoming - Local)
     Concert(
       id: 7,
       name: "Chan Troi Ruc Ro - Ha Anh Tuan",
@@ -72,7 +65,6 @@ class AppState extends ChangeNotifier {
       price: 200.0,
       seats: Seat(seathorizontalamount: 12, seatvertivalamount: 15),
     ),
-    // 8. Imagine Dragons (Upcoming)
     Concert(
       id: 8,
       name: "Mercury World Tour",
@@ -89,12 +81,9 @@ class AppState extends ChangeNotifier {
   }
 
   void addConcert(String name, String imageLink, int rows, int columns, String date, double price) {
-    // Logic tạo ID tự động: Nếu list rỗng thì ID = 1, ngược lại lấy ID cuối + 1
-    //final int newId = concerts.isEmpty ? 1 : concerts.last.id + 1;
-
     final newSeat = Seat(
       seathorizontalamount: rows,
-      seatvertivalamount: columns, // Giữ nguyên tên biến theo file Seat.dart của bạn
+      seatvertivalamount: columns,
     );
 
     final newConcert = Concert(
