@@ -17,6 +17,7 @@ class ConcertdetailState extends State<Concertdetail> {
   void initState() {
     super.initState();
     concert = widget.concert;
+    print(concert.seats.seatarray);
   }
 
   @override

@@ -37,10 +37,10 @@ class Databasemanager {
     try {
       Database db = await database;
       List<Map<String, dynamic>> databaseseatlist = await db.query("Seat", where: "concertID = ?", whereArgs: [id]);
-      (int, int) counttuple = GetLargestSeat(databaseseatlist);
+      (int, int) counttuple   = GetLargestSeat(databaseseatlist);
       int horizontalcount = counttuple.$1;
       int verticalcount = counttuple.$2;
-      List<List<int>> seatarray = List.generate(verticalcount, (i) => List.generate(horizontalcount, (j) => 0));
+      List<List<int>> seatarray = List.generate(verticalcount + 1, (i) => List.generate(horizontalcount + 1, (j) => 0));
       for(Map<String,dynamic> seat in databaseseatlist)
       {
           seatarray[seat["verticalPos"]][seat["horizontalPos"]] = seat["available"];
@@ -75,14 +75,15 @@ class Databasemanager {
   Future<void> AddConcert(Concert concert) async {
     try {
       Database db = await database;
-      db.insert("Concert", concert.ToMap());
+      int id = await db.insert("Concert", concert.ToMap());
+
       for(int i=0; i < concert.seats.seathorizontalamount; i++)
         {
           for(int j=0; j< concert.seats.seatvertivalamount; j++)
             {
               Map<String, dynamic> seatdata
                = {
-                "concertID" : concert.id,
+                "concertID" : id,
                  "verticalPos" : i,
                  "horizontalPos": j,
                  "available": concert.seats.seatarray[i][j]
@@ -110,7 +111,7 @@ class Databasemanager {
   static Future<Database> InitDatabase() async {
     WidgetsFlutterBinding.ensureInitialized();
     return openDatabase(
-      join(await getDatabasesPath(), 'concertdbtests2.db'),
+      join(await getDatabasesPath(), 'concertdb.db'),
       onCreate: (db, version) async {
         await db.execute("PRAGMA foreign_keys = ON");
         await db.execute(
