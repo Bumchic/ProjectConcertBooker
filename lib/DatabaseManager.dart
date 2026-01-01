@@ -17,6 +17,8 @@ class Databasemanager {
       );
       List<Concert> todolist = [];
       for (Map<String, dynamic> concert in databaseconcertlist) {
+        // --- SỬA Ở ĐÂY: Lấy ghế thật từ DB dựa trên ID ---
+        Seat realSeats = await GetSeatArray(concert['id']);
         todolist.add(
           Concert(
             id: concert['id'],
@@ -24,7 +26,7 @@ class Databasemanager {
             date: concert['date'],
             price: (concert['price'] as int).toDouble(),
             imagelink: concert['imagelink'],
-            seats: Seat(),
+            seats: realSeats, // <-- Thay Seat() bằng realSeats
           ),
         );
       }
@@ -41,12 +43,13 @@ class Databasemanager {
       (int, int) counttuple   = GetLargestSeat(databaseseatlist);
       int horizontalcount = counttuple.$1;
       int verticalcount = counttuple.$2;
-      List<List<int>> seatarray = List.generate(verticalcount + 1, (i) => List.generate(horizontalcount + 1, (j) => 0));
+      List<List<int>> seatarray = List.generate(horizontalcount + 1, (i) => List.generate(verticalcount + 1, (j) => 0));
       for(Map<String,dynamic> seat in databaseseatlist)
       {
           seatarray[seat["verticalPos"]][seat["horizontalPos"]] = seat["available"];
       }
-      return Seat(seathorizontalamount: horizontalcount, seatvertivalamount: verticalcount, seatarray: seatarray);
+
+      return Seat(seathorizontalamount: horizontalcount+1, seatvertivalamount: verticalcount+1, seatarray: seatarray);
     } catch (Exception) {
       throw Exception;
     }

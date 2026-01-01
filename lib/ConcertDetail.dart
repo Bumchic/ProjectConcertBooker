@@ -1,6 +1,6 @@
 import 'package:concertbooker/Concert.dart';
 import 'package:flutter/material.dart';
-
+import 'screens/seat_selection/seat_selection_screen.dart';
 class Concertdetail extends StatefulWidget {
   final Concert concert;
 
@@ -97,8 +97,11 @@ class ConcertdetailState extends State<Concertdetail> {
             Center(
               child: ElevatedButton.icon(
                 onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text("Order Seat - Coming soon")),
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SeatSelectionScreen(concert: concert),
+                    ),
                   );
                 },
                 icon: const Icon(Icons.shopping_cart),

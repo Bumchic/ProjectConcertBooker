@@ -7,7 +7,7 @@ class Seat {
   }
   List<List<int>> seatarray;
 
-  Seat({this.seathorizontalamount = 20, this.seatvertivalamount = 20})
+  Seat({this.seathorizontalamount = 20, this.seatvertivalamount = 20, List<List<int>>? seatarray,})
       :seatarray = List.generate(seathorizontalamount, (i) => List.generate(seatvertivalamount, (j) => 1));
 
 
