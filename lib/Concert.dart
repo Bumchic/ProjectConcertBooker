@@ -11,4 +11,14 @@ class Concert{
   Concert({required this.id, required this.name, required this.date
     ,required this.description, required this.imagelink, required this.seats});
 
+  Map<String, dynamic> ToMap()
+  {
+    return {
+      "id" : this.id,
+      "name": name,
+      "date": "${date.year}-${date.month}-${date.day}",
+      "description": description,
+      "imagelink": imagelink
+    };
+  }
 }

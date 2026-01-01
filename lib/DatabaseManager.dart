@@ -6,7 +6,6 @@ class Databasemanager {
   Future<Database> database;
   Databasemanager({required this.database});
 
-
   Future<List<Concert>> GetConcertList() async {
     try {
       Database db = await database;
@@ -27,6 +26,24 @@ class Databasemanager {
         );
       }
       return todolist;
+    } catch (Exception) {
+      throw Exception;
+    }
+  }
+
+  Future<void> AddConcert(Concert concert) async {
+    try {
+      Database db = await database;
+      db.insert("Concert", concert.ToMap());
+    } catch (Exception) {
+      throw Exception;
+    }
+  }
+
+  Future<void> DeleteConcert(Concert concert) async {
+    try {
+      Database db = await database;
+      db.delete("Concert", where: "id = ?", whereArgs: [concert.id]);
     } catch (Exception) {
       throw Exception;
     }
