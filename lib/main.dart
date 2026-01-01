@@ -1,31 +1,45 @@
-import 'package:concertbooker/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'app_state.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-import 'package:sqflite/sqflite_dev.dart';
 
-void main() {
-  InitDatabase();
+import 'app_state.dart';
+import 'screens/home/home_screen.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initDatabase();
   runApp(const MyApp());
 }
 
-Future<Database> InitDatabase() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  return openDatabase(
+Future<void> initDatabase() async {
+  await openDatabase(
     join(await getDatabasesPath(), 'concertdb.db'),
-    onCreate: (db, version) {
-      db.execute("PRAGMA foreign_keys = ON");
-      db.execute(
-        'create table Concert(id integer num AUTOINCREMENT primary key, name text not null, date text, description text, price integer, imagelink text);',
-      );
-      db.execute(
-        'create table seat(id integer AUTOINCREMENT primary key, concertID integer, verticalPos integer not null, horizontalPos integer not null'
-        'foreign key (concertID) references Concert(id))',
-      );
+    version: 1,
+    onCreate: (db, version) async {
+      await db.execute('PRAGMA foreign_keys = ON');
+
+      await db.execute('''
+        CREATE TABLE Concert (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          name TEXT NOT NULL,
+          date TEXT,
+          description TEXT,
+          price INTEGER,
+          imagelink TEXT
+        );
+      ''');
+
+      await db.execute('''
+        CREATE TABLE Seat (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          concertID INTEGER,
+          verticalPos INTEGER NOT NULL,
+          horizontalPos INTEGER NOT NULL,
+          FOREIGN KEY (concertID) REFERENCES Concert(id)
+        );
+      ''');
     },
-    version: 1
   );
 }
 
@@ -40,8 +54,10 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Concert Booker',
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.deepPurple,
+          ),
         ),
         home: const HomeScreen(),
       ),
