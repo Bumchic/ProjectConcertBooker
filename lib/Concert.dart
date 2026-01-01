@@ -5,9 +5,8 @@ class Concert {
   final String name;
   final String date;
   final double price;
-  final String imagelink; // Lưu ý: trong code bạn gửi là imagelink (chữ l thường)
+  final String imagelink;
   final Seat seats;
-   // Mới thêm
 
   Concert({
     this.id = -1,
