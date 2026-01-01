@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../app_state.dart';
 import 'admin/admin_dashboard.dart';
 import '../Concert.dart';
+import '../ConcertDetail.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -150,84 +151,92 @@ class HomeScreen extends StatelessWidget {
             // ClipRRect để bo góc cả ảnh lẫn lớp phủ gradient
             child: ClipRRect(
               borderRadius: BorderRadius.circular(16),
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  // 1. LỚP ẢNH NỀN
-                  Image.network(
-                    concert.imagelink,
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) => Container(color: Colors.grey[300]),
-                  ),
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Concertdetail(concert: concert)),
+                  );
+                },
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    // 1. LỚP ẢNH NỀN
+                    Image.network(
+                      concert.imagelink,
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, __, ___) => Container(color: Colors.grey[300]),
+                    ),
 
-                  // 2. LỚP PHỦ GRADIENT (QUAN TRỌNG: Giúp chữ luôn nổi bật)
-                  Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    height: 150, // Chiều cao của lớp phủ đen
-                    child: Container(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Colors.transparent,       // Ở trên trong suốt
-                            Colors.black.withOpacity(0.8), // Ở dưới đen đậm
-                          ],
+                    // 2. LỚP PHỦ GRADIENT (QUAN TRỌNG: Giúp chữ luôn nổi bật)
+                    Positioned(
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      height: 150, // Chiều cao của lớp phủ đen
+                      child: Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Colors.transparent,       // Ở trên trong suốt
+                              Colors.black.withOpacity(0.8), // Ở dưới đen đậm
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
 
-                  // 3. LỚP NỘI DUNG CHỮ (Đè lên gradient)
-                  Positioned(
-                    bottom: 15,
-                    left: 15,
-                    right: 15,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Tag HOT
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                          decoration: BoxDecoration(
-                              color: Colors.redAccent,
-                              borderRadius: BorderRadius.circular(4)
+                    // 3. LỚP NỘI DUNG CHỮ (Đè lên gradient)
+                    Positioned(
+                      bottom: 15,
+                      left: 15,
+                      right: 15,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Tag HOT
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                            decoration: BoxDecoration(
+                                color: Colors.redAccent,
+                                borderRadius: BorderRadius.circular(4)
+                            ),
+                            child: const Text(
+                                "HOT",
+                                style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold)
+                            ),
                           ),
-                          child: const Text(
-                              "HOT",
-                              style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold)
-                          ),
-                        ),
-                        const SizedBox(height: 8),
+                          const SizedBox(height: 8),
 
-                        // Tên Concert
-                        Text(
-                          concert.name,
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              // Thêm bóng đổ nhẹ cho chữ nét hơn nữa
-                              shadows: [
-                                Shadow(blurRadius: 4, color: Colors.black, offset: Offset(0, 2))
-                              ]
+                          // Tên Concert
+                          Text(
+                            concert.name,
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                // Thêm bóng đổ nhẹ cho chữ nét hơn nữa
+                                shadows: [
+                                  Shadow(blurRadius: 4, color: Colors.black, offset: Offset(0, 2))
+                                ]
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
 
-                        // Ngày tháng
-                        const SizedBox(height: 4),
-                        Text(
-                          concert.date,
-                          style: const TextStyle(color: Colors.white70, fontSize: 14),
-                        ),
-                      ],
+                          // Ngày tháng
+                          const SizedBox(height: 4),
+                          Text(
+                            concert.date,
+                            style: const TextStyle(color: Colors.white70, fontSize: 14),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           );
@@ -257,7 +266,10 @@ class HomeScreen extends StatelessWidget {
           ),
           child: InkWell( // Thêm InkWell để có hiệu ứng khi bấm
             onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Clicked ${concert.name}")));
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Concertdetail(concert: concert)),
+              );
             },
             child: Row(
               children: [
@@ -404,9 +416,9 @@ class ConcertSearchDelegate extends SearchDelegate {
           trailing: Text("\$${concert.price}", style: const TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold)),
           onTap: () {
             close(context, null); // Đóng tìm kiếm
-            // Hiện thông báo chọn (Sau này sẽ dẫn sang trang Detail)
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("Selected form Search: ${concert.name}")),
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Concertdetail(concert: concert)),
             );
           },
         );

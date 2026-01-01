@@ -45,7 +45,11 @@ class ConcertdetailState extends State<Concertdetail>
             Container(
               width: double.infinity,
               child: CardBuilder(Center(child: Text("Seat amount: " + concert.seats.Totalseat.toString()))),
-            )
+            ),
+            ElevatedButton(
+              onPressed: () {},
+              child: const Text("Order Seat"),
+            ),
           ],
         ),
       ),
