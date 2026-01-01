@@ -29,7 +29,7 @@ class HomeScreen extends StatelessWidget {
           ? const AdminDashboard()
           : FutureBuilder(future: appState.dbmanager.GetConcertList(), builder:
       (context, snapshot){
-            Widget widget = CircularProgressIndicator();
+            Widget widget = Text("Something went wrong");
             if(snapshot.hasData)
               {
                 widget = UserHome(concerts: snapshot.data!);

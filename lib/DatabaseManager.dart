@@ -4,6 +4,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 
+
 class Databasemanager {
   Future<Database> database;
   Databasemanager({required this.database});
@@ -23,7 +24,7 @@ class Databasemanager {
             date: concert['date'],
             price: (concert['price'] as int).toDouble(),
             imagelink: concert['imagelink'],
-            seats: await GetSeatArray(concert['id'])
+            seats: Seat(),
           ),
         );
       }
@@ -100,13 +101,10 @@ class Databasemanager {
     try {
       Database db = await database;
       db.delete("Concert", where: "id = ?", whereArgs: [concert.id]);
-      db.delete("Seat", where: "concertID = ?", whereArgs: [concert.id]);
     } catch (Exception) {
       throw Exception;
     }
   }
-
-
 
   static Future<Database> InitDatabase() async {
     WidgetsFlutterBinding.ensureInitialized();
