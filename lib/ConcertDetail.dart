@@ -1,54 +1,116 @@
 import 'package:concertbooker/Concert.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class Concertdetail extends StatefulWidget
-{
-  Concert concert;
-  Concertdetail({required this.concert});
-    @override
-  State<StatefulWidget> createState() {
-    return ConcertdetailState(concert: concert);
-  }
+class Concertdetail extends StatefulWidget {
+  final Concert concert;
+
+  const Concertdetail({super.key, required this.concert});
+
+  @override
+  State<Concertdetail> createState() => ConcertdetailState();
 }
 
-class ConcertdetailState extends State<Concertdetail>
-{
-  Concert concert;
-  ConcertdetailState({required this.concert});
+class ConcertdetailState extends State<Concertdetail> {
+  late Concert concert;
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-
+    concert = widget.concert;
   }
 
-
-
-    @override
+  @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
-      appBar: AppBar(title: Text("Concert detail"),),
-      body: Center(
+      appBar: AppBar(
+        title: const Text("Concert Detail"),
+        backgroundColor: Colors.deepPurple,
+        foregroundColor: Colors.white,
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              width: double.infinity,
-              child: CardBuilder(Center(child: Image.network(concert.imagelink),)),
+            CardBuilder(
+              Image.network(
+                concert.imagelink,
+                height: 220,
+                width: double.infinity,
+                fit: BoxFit.cover,
+                errorBuilder: (_, __, ___) {
+                  return Container(
+                    height: 220,
+                    color: Colors.grey[300],
+                    child: const Icon(Icons.broken_image, size: 50),
+                  );
+                },
+              ),
             ),
-            Container(
-              width: double.infinity,
-              child: CardBuilder(Center(child: Text("Name: " + concert.name))),
+
+            const SizedBox(height: 16),
+
+            CardBuilder(
+              Text(
+                concert.name,
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
-            Container(
-              width: double.infinity,
-              child: CardBuilder(Center(child: Text("Seat amount: " + concert.seats.Totalseat.toString()))),
+
+            CardBuilder(
+              Row(
+                children: [
+                  const Icon(Icons.calendar_today, color: Colors.deepPurple),
+                  const SizedBox(width: 8),
+                  Text("Date: ${concert.date}"),
+                ],
+              ),
             ),
-            ElevatedButton(
-              onPressed: () {},
-              child: const Text("Order Seat"),
+
+            CardBuilder(
+              Row(
+                children: [
+                  const Icon(Icons.attach_money, color: Colors.deepPurple),
+                  const SizedBox(width: 8),
+                  Text("Price: \$${concert.price.toStringAsFixed(2)}"),
+                ],
+              ),
+            ),
+
+            CardBuilder(
+              Row(
+                children: [
+                  const Icon(Icons.event_seat, color: Colors.deepPurple),
+                  const SizedBox(width: 8),
+                  Text("Total seats: ${concert.seats.Totalseat}"),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 24),
+
+            /// 🛒 Order Button
+            Center(
+              child: ElevatedButton.icon(
+                onPressed: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("Order Seat - Coming soon")),
+                  );
+                },
+                icon: const Icon(Icons.shopping_cart),
+                label: const Text("Order Seat"),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.deepPurple,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 32,
+                    vertical: 14,
+                  ),
+                ),
+              ),
             ),
           ],
         ),
@@ -56,12 +118,14 @@ class ConcertdetailState extends State<Concertdetail>
     );
   }
 
-  Widget CardBuilder(Widget content)
-  {
+  Widget CardBuilder(Widget content) {
     return Card(
-      child: content,
-      shadowColor: Colors.green,
-      surfaceTintColor: Colors.blue,
+      margin: const EdgeInsets.only(bottom: 12),
+      elevation: 3,
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: content,
+      ),
     );
   }
 }
