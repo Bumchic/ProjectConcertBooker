@@ -15,7 +15,7 @@ class AppState extends ChangeNotifier {
       imagelink: "https://upload.wikimedia.org/wikipedia/en/4/4d/The_Eras_Tour_poster.png",
       date: "02/03/2026",
       price: 1200.0,
-      seats: Seat(seathorizontalamount: 20, seatvertivalamount: 30),
+      seats: Seat.Default(seathorizontalamount: 20, seatvertivalamount: 30),
 
     ),
     // 2. BLACKPINK (Hot Event)
@@ -25,7 +25,7 @@ class AppState extends ChangeNotifier {
       imagelink: "https://upload.wikimedia.org/wikipedia/en/2/23/Blackpink_Born_Pink_World_Tour_poster.jpg",
       date: "15/04/2026",
       price: 850.0,
-      seats: Seat(seathorizontalamount: 15, seatvertivalamount: 25),
+      seats: Seat.Default(seathorizontalamount: 15, seatvertivalamount: 25),
     ),
     // 3. Coldplay (Hot Event)
     Concert(
@@ -34,7 +34,7 @@ class AppState extends ChangeNotifier {
       imagelink: "https://upload.wikimedia.org/wikipedia/en/2/2f/Music_of_the_Spheres_World_Tour_poster.jpg",
       date: "20/05/2026",
       price: 900.0,
-      seats: Seat(seathorizontalamount: 25, seatvertivalamount: 25),
+      seats: Seat.Default(seathorizontalamount: 25, seatvertivalamount: 25),
     ),
     // 4. Son Tung M-TP (Upcoming)
     Concert(
@@ -43,7 +43,7 @@ class AppState extends ChangeNotifier {
       imagelink: "https://upload.wikimedia.org/wikipedia/vi/6/62/Sky_Tour_Movie_poster.jpg",
       date: "10/06/2026",
       price: 150.0,
-      seats: Seat(seathorizontalamount: 10, seatvertivalamount: 20),
+      seats: Seat.Default(seathorizontalamount: 10, seatvertivalamount: 20),
     ),
     // 5. Adele (Upcoming)
     Concert(
@@ -52,7 +52,7 @@ class AppState extends ChangeNotifier {
       imagelink: "https://upload.wikimedia.org/wikipedia/en/6/63/Weekends_with_Adele_poster.png",
       date: "14/07/2026",
       price: 2000.0,
-      seats: Seat(seathorizontalamount: 10, seatvertivalamount: 10),
+      seats: Seat.Default(seathorizontalamount: 10, seatvertivalamount: 10),
     ),
     // 6. Ed Sheeran (Upcoming)
     Concert(
@@ -61,7 +61,7 @@ class AppState extends ChangeNotifier {
       imagelink: "https://upload.wikimedia.org/wikipedia/en/2/2c/Mathematics_Tour.png",
       date: "22/08/2026",
       price: 600.0,
-      seats: Seat(seathorizontalamount: 30, seatvertivalamount: 30),
+      seats: Seat.Default(seathorizontalamount: 30, seatvertivalamount: 30),
     ),
     // 7. Ha Anh Tuan (Upcoming - Local)
     Concert(
@@ -70,7 +70,7 @@ class AppState extends ChangeNotifier {
       imagelink: "https://i.scdn.co/image/ab67616d0000b27376c9e03666d9972357fb464a",
       date: "02/09/2026",
       price: 200.0,
-      seats: Seat(seathorizontalamount: 12, seatvertivalamount: 15),
+      seats: Seat.Default(seathorizontalamount: 12, seatvertivalamount: 15),
     ),
     // 8. Imagine Dragons (Upcoming)
     Concert(
@@ -79,7 +79,7 @@ class AppState extends ChangeNotifier {
       imagelink: "https://upload.wikimedia.org/wikipedia/en/b/b3/Mercury_World_Tour_poster.jpg",
       date: "11/10/2026",
       price: 550.0,
-      seats: Seat(seathorizontalamount: 18, seatvertivalamount: 18),
+      seats: Seat.Default(seathorizontalamount: 18, seatvertivalamount: 18),
     ),
   ];
 
@@ -92,7 +92,7 @@ class AppState extends ChangeNotifier {
     // Logic tạo ID tự động: Nếu list rỗng thì ID = 1, ngược lại lấy ID cuối + 1
     //final int newId = concerts.isEmpty ? 1 : concerts.last.id + 1;
 
-    final newSeat = Seat(
+    final newSeat = Seat.Default(
       seathorizontalamount: rows,
       seatvertivalamount: columns, // Giữ nguyên tên biến theo file Seat.dart của bạn
     );
