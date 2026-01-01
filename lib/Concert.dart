@@ -10,7 +10,7 @@ class Concert {
    // Mới thêm
 
   Concert({
-    required this.id,
+    this.id = -1,
     required this.name,
     required this.date,
     required this.price,
