@@ -112,16 +112,55 @@ class Databasemanager {
     WidgetsFlutterBinding.ensureInitialized();
     return openDatabase(
       join(await getDatabasesPath(), 'concertdb.db'),
+      version: 2,
       onCreate: (db, version) async {
         await db.execute("PRAGMA foreign_keys = ON");
-        await db.execute(
-          "create table Concert(id integer primary key, name text not null, date text, description text, price integer, imagelink text);",
-        );
-        await db.execute(
-          "create table Seat(id integer primary key, concertID integer, verticalPos integer not null, horizontalPos integer not null, available integer not null, foreign key (concertID) references Concert(id))",
-        );
+        await db.execute("""
+        CREATE TABLE Concert(
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          name TEXT NOT NULL,
+          date TEXT,
+          description TEXT,
+          price INTEGER,
+          imagelink TEXT
+        )
+      """);
+        await db.execute("""
+        CREATE TABLE Seat(
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          concertID INTEGER,
+          verticalPos INTEGER NOT NULL,
+          horizontalPos INTEGER NOT NULL,
+          available INTEGER NOT NULL,
+          FOREIGN KEY (concertID) REFERENCES Concert(id)
+        )
+      """);
       },
-      version: 1,
+      onUpgrade: (db, oldVersion, newVersion) async {
+        if (oldVersion < 2) {
+          await db.execute("""
+          CREATE TABLE IF NOT EXISTS Concert(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            date TEXT,
+            description TEXT,
+            price INTEGER,
+            imagelink TEXT
+          )
+        """);
+          await db.execute("""
+          CREATE TABLE IF NOT EXISTS Seat(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            concertID INTEGER,
+            verticalPos INTEGER NOT NULL,
+            horizontalPos INTEGER NOT NULL,
+            available INTEGER NOT NULL,
+            FOREIGN KEY (concertID) REFERENCES Concert(id)
+          )
+        """);
+        }
+      },
     );
   }
+
 }
