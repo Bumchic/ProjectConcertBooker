@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../ConcertDetail.dart';
+import 'ConcertDetail.dart';
 
 class UserHome extends StatelessWidget {
   final List concerts;

@@ -1,6 +1,6 @@
 import 'package:concertbooker/Concert.dart';
 import 'package:flutter/material.dart';
-import 'screens/seat_selection/seat_selection_screen.dart';
+import '../seat_selection/seat_selection_screen.dart';
 class Concertdetail extends StatefulWidget {
   final Concert concert;
 
