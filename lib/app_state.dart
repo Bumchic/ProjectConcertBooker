@@ -6,7 +6,6 @@ import 'package:concertbooker/Seat.dart';
 class AppState extends ChangeNotifier {
   bool isAdminMode = false;
   Databasemanager dbmanager = Databasemanager(database: Databasemanager.InitDatabase());
-  // Dữ liệu giả được nạp sẵn (Hard-coded mock data)
   List<Concert> concerts = [
     Concert(
       id: 1,

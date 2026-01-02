@@ -17,7 +17,6 @@ class Databasemanager {
       );
       List<Concert> todolist = [];
       for (Map<String, dynamic> concert in databaseconcertlist) {
-        // --- SỬA Ở ĐÂY: Lấy ghế thật từ DB dựa trên ID ---
         Seat realSeats = await GetSeatArray(concert['id']);
         todolist.add(
           Concert(
@@ -26,7 +25,7 @@ class Databasemanager {
             date: concert['date'],
             price: (concert['price'] as int).toDouble(),
             imagelink: concert['imagelink'],
-            seats: realSeats, // <-- Thay Seat() bằng realSeats
+            seats: realSeats,
           ),
         );
       }
