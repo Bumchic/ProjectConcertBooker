@@ -17,7 +17,6 @@ class ConcertCard extends StatelessWidget {
         onTap: onTap,
         child: Stack(
           children: [
-            // 1. Ảnh nền full thẻ
             Positioned.fill(
               child: Image.network(
                 concert.imagelink,
@@ -26,7 +25,6 @@ class ConcertCard extends StatelessWidget {
               ),
             ),
 
-            // 2. Lớp phủ màu đen mờ dần để chữ nổi bật
             Positioned(
               bottom: 0,
               left: 0,
@@ -61,11 +59,11 @@ class ConcertCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          concert.date, // Cần cập nhật model để có biến này
+                          concert.date,
                           style: const TextStyle(color: Colors.white70, fontSize: 12),
                         ),
                         Text(
-                          "\$${concert.price}", // Cần cập nhật model
+                          "\$${concert.price}",
                           style: const TextStyle(
                               color: Colors.amber,
                               fontWeight: FontWeight.bold

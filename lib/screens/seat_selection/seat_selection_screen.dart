@@ -29,7 +29,6 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
   }
 
   void _handleBuyNow() {
-    // Xử lý logic mua vé tại đây (gọi Database)
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text("Processing ${_selectedSeats.length} seats...")),
     );
@@ -49,15 +48,12 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
       ),
       body: Column(
         children: [
-          // 1. Sân khấu
           const StageIndicator(),
 
-          // 2. Chú thích
           const SeatLegend(),
 
           const Divider(height: 30),
 
-          // 3. Lưới ghế (Truyền state và callback vào)
           Expanded(
             child: SeatGrid(
               rows: rows,
@@ -68,7 +64,6 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
             ),
           ),
 
-          // 4. Thanh thanh toán
           BookingBottomBar(
             selectedCount: _selectedSeats.length,
             pricePerSeat: widget.concert.price,
